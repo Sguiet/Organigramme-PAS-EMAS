@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAS EMAS - Pôle d'Appui à la Scolarité</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #0284c7;
+            --accent: #f0f9ff;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --border: #cbd5e1;
+            --radius: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #f8fafc;
+            color: var(--text-dark);
+            padding: 2rem 1rem;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1450px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        header h1 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 0.25rem;
+            line-height: 1.2;
+        }
+
+        header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .search-filter {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .search-filter input {
+            width: 100%;
+            max-width: 400px;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-filter input:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
+        }
+
+        /* Section Direction Verticale */
+        .leadership-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 500px;
+            margin: 0 auto 3rem auto;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.25rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card.leadership {
+            border-left: 5px solid var(--primary);
+        }
+
+        .card-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-light);
+            margin-bottom: 0.25rem;
+        }
+
+        .card-name {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* Style spécifique pour la carte double des psychologues */
+        .dual-names-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .sub-name-pill {
+            background: #f8fafc;
+            border: 1px solid #f1f5f9;
+            padding: 0.6rem 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .sub-name-pill:hover {
+            background: var(--accent);
+            border-color: var(--secondary);
+        }
+
+        .single-clickable {
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .single-clickable:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-color: var(--secondary);
+        }
+
+        /* Section Antennes - Forcée à 4 colonnes sur grand écran */
+        .antennas-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+        }
+
+        @media (max-width: 1200px) {
+            .antennas-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 700px) {
+            .antennas-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .antenna-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.25rem;
+            border-top: 4px solid var(--secondary);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .antenna-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 0.75rem;
+        }
+
+        .antenna-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .badge {
+            background: var(--accent);
+            color: var(--secondary);
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+        }
+
+        .team-group {
+            margin-bottom: 0.85rem;
+        }
+
+        .team-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .team-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+        }
+
+        .team-names {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            background: #f8fafc;
+            padding: 0.6rem 0.75rem;
+            border-radius: 6px;
+            border: 1px solid #f1f5f9;
+            margin-bottom: 0.35rem;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .team-names:hover {
+            background: var(--accent);
+            border-color: var(--secondary);
+        }
+
+        .team-names:last-child {
+            margin-bottom: 0;
+        }
+
+        .person-name {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .person-name.highlight {
+            color: var(--secondary);
+        }
+
+        /* Fenêtre Modale (Pop-up) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            background: white;
+            width: 90%;
+            max-width: 450px;
+            border-radius: var(--radius);
+            padding: 1.75rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transform: translateY(10px);
+            transition: transform 0.2s ease;
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #f1f5f9;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dark);
+            transition: background 0.2s;
+        }
+
+        .modal-close:hover {
+            background: var(--border);
+        }
+
+        .modal-role-tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--secondary);
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .modal-name-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-contact-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            margin-bottom: 1rem;
+            background: #f8fafc;
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid #f1f5f9;
+        }
+
+        .modal-contact-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        .modal-contact-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .modal-contact-value {
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            word-break: break-all;
+            font-weight: 500;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-action {
+            padding: 0.4rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--text-dark);
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .btn-action:hover {
+            background: var(--accent);
+            border-color: var(--secondary);
+            color: var(--secondary);
+        }
+
+        .btn-action.primary {
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+
+        .btn-action.primary:hover {
+            background: #026aa2;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>PAS EMAS</h1>
+        <p>Pôle d'Appui à la Scolarité</p>
+    </header>
+
+    <div class="search-filter">
+        <input type="text" id="searchInput" placeholder="Rechercher un nom, un poste, une antenne..." onkeyup="filterContent()">
+    </div>
+
+    <!-- Direction & Pilotage -->
+    <div class="leadership-section" id="leadershipGrid">
+        <div class="card leadership searchable single-clickable" onclick="openModal('Julien Gagneux', 'Direction du dispositif Enfance Jeunesse', 'j.gagneux@aja44.fr', '0679220554')">
+            <div class="card-title">Direction du dispositif Enfance Jeunesse</div>
+            <div class="card-name">Julien Gagneux</div>
+        </div>
+        <div class="card leadership searchable single-clickable" onclick="openModal('Stéphanie Lehoux', 'Cheffe de service : PAS EMAS - API - EMR - EMASco', 's.lehoux@aja44.fr', '0624695888')">
+            <div class="card-title">Cheffe de service : PAS EMAS - API - EMR - EMASco</div>
+            <div class="card-name">Stéphanie Lehoux</div>
+        </div>
+        <div class="card leadership searchable single-clickable" onclick="openModal('Cindy Roux', 'Coordination PAS EMAS', 'c.roux@aja44.fr', '0788711131')">
+            <div class="card-title">Coordination PAS EMAS</div>
+            <div class="card-name">Cindy Roux</div>
+        </div>
+        
+        <!-- Carte commune pour les deux psychologues -->
+        <div class="card leadership searchable">
+            <div class="card-title">Psychologues PAS EMAS</div>
+            <div class="dual-names-container">
+                <div class="sub-name-pill" onclick="openModal('Charlotte Tessier', 'Psychologue PAS EMAS', 'c.tessier@aja44.fr', '0785686327')">
+                    <span class="person-name">Charlotte Tessier</span>
+                </div>
+                <div class="sub-name-pill" onclick="openModal('Morgan Briand-Josse', 'Psychologue PAS EMAS', 'm.briand-josse@aja44.fr', '0621338781')">
+                    <span class="person-name">Morgan Briand-Josse</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card leadership searchable single-clickable" onclick="openModal('Caroline D\'Augustin', 'Secrétaire PAS EMAS', 'c.daugustin@aja44.fr', '0240751505')">
+            <div class="card-title">Secrétaire PAS EMAS</div>
+            <div class="card-name">Caroline D'Augustin</div>
+        </div>
+    </div>
+
+    <!-- Antennes -->
+    <div class="antennas-container" id="antennasGrid">
+        
+        <!-- Guérande Atlantique -->
+        <div class="antenna-card searchable">
+            <div class="antenna-header">
+                <div class="antenna-title">Guérande Atlantique</div>
+                <div class="badge">Simple</div>
+            </div>
+            
+            <div class="team-group">
+                <div class="team-label">Référente PAS EMAS</div>
+                <div class="team-names" onclick="openModal('Louise Retail', 'Référente PAS EMAS - Guérande Atlantique', 'l.retail@aja44.fr', '0673317715')">
+                    <div class="person-name">Louise Retail</div>
+                </div>
+            </div>
+
+            <div class="team-group">
+                <div class="team-label">Coordonnateurs</div>
+                <div class="team-names" onclick="openModal('Sandrine Thoreux', 'Coordonnateur - Guérande Atlantique', 'sandrine.thoreux@ac-nantes.fr', '0626883261')">
+                    <div class="person-name">Sandrine Thoreux</div>
+                </div>
+                <div class="team-names" onclick="openModal('Sonia Guiet', 'Coordonnateur', 'sguiet.ec44@gmail.com', '0685580774')">
+                    <div class="person-name highlight">Sonia Guiet</div>
+                </div>
+            </div>
+
+            <div class="team-group">
+                <div class="team-label">Éducateurs</div>
+                <div class="team-names" onclick="openModal('Sarah Guérémy', 'Éducateur - Guérande Atlantique', 's.gueremy@aja44.fr', '0616012468')">
+                    <div class="person-name">Sarah Guérémy</div>
+                </div>
+                <div class="team-names" onclick="openModal('Elsa Barraud', 'Éducateur', 'e.barraud@aja44.fr', '0675748601')">
+                    <div class="person-name highlight">Elsa Barraud</div>
+                </div>
+            </div>
+
+            <div class="team-group">
+                <div class="team-label">Ergothérapeute PAS EMAS</div>
+                <div class="team-names" onclick="openModal('Camille Chavoix', 'Ergothérapeute - Guérande Atlantique', 'camillechavoix.ergo@gmail.com', '0660433410')">
+                    <div class="person-name">Camille Chavoix</div>
+                </div>
+            </div>
+
+            <div class="team-group">
+                <div class="team-label">IEN de circonscription</div>
+                <div class="team-names" onclick="openModal('M. Turban', 'IEN de circonscription - Guérande Atlantique', '', '0240704257')">
+                    <div class="person-name">M. Turban</div>
+                </div>
+            </div>
+
+            <div class="team-group">
+                <div class="team-label">Pilote DDEC</div>
+                <div class="team-names" onclick="openModal('M. Prallong', 'Pilote DDEC - Guérande Atlantique', 'rprallong@ec44.fr', '0240620820')">
+                    <div class="person-name">M. Prallong</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Saint Nazaire Ouest -->
+        <div class="antenna-card searchable">
+            <div class="antenna-header">
+                <div class="antenna-title">St Nazaire Ouest</div>
+                <div class="badge">Double</div>
+            </div>
+
+            <div class="team-group">
+                <div class="team-label">Référente PAS EMAS</div>
+                <div class="team-names" onclick="openModal('Nadine Aoustin', 'Référente PAS EMAS - St Nazaire Ouest', 'n.aoustin@aja44.fr', '')">
+                    <div class="person-name">Nadine Aoustin</div>
+                </div>
+            </div>
+
+            <div class="team-group">
+                <div class="team-label">Coordonnateurs</div>
+                <div class="team-names" onclick="openModal('Fanny Perrin', 'Coordonnateur - St Nazaire Ouest', 'fanny.perrin@ac-nantes.fr', '0611281120')">
+                    <div class="person-name">Fanny Perrin</div>
+                </div>
+                <div class="team-names" onclick="openModal('Arnaud Champot', 'Coordonnateur - St Nazaire Ouest', 'arnaud.champot@ac-nantes.fr', '0626782428')">
+                    <div class="person-name">Arnaud Champot</div>
+                </div>
+                <div class="team-names" onclick="openModal('Sonia Guiet', 'Coordonnateur', 'sguiet.ec44@gmail.com', '0685580774')">
+                    <div class="person-name highlight">Sonia Guiet</div>
+                </div>
+            </div>
+
+            <div class="team-group">
+                <div class="team-label">Éducateurs</div>
+                <div class="team-names" onclick="openModal('Anne Mazoyer', 'Éducateur - St Nazaire Ouest', 'a.mazoyer@aja44.fr', '0616127369')">
+                    <div class="person-name">Anne Mazoyer</div>
+                </div>
+                <div class="team-names" onclick="openModal('Audrey Rabaey', 'Éducateur - St Nazaire Ouest', 'a.rabaey@aja44.fr', '0616122287')">
+                    <div class="person-name">Audrey Rabaey</div>
+                </div>
+                <div class="team-names" onclick="openModal('Elsa Barraud', 'Éducateur', 'e.barraud@aja44.fr', '0675748601')">
+                    <div class="person-name highlight">Elsa Barraud</div>
+                </div>
+            </div>
+
+            <div class="team-group">
+                <div class="team-label">Ergothérapeute PAS EMAS</div>
+                <div class="team-names" onclick="openModal('Angélique Barreau', 'Ergothérapeute - St Nazaire Ouest', '', '')">
+                    <div class="person-name">Angélique Barreau</div>
+                </div>
+            </div>
+
+            <div class="team-group">
+                <div class="team-label">IEN de circonscription</div>
+                <div class="team-names" onclick="openModal('M. Bizeul', 'IEN de circonscription - St Nazaire Ouest', '', '0251765180')">
+                    <div class="person-name">M. Bizeul</div>
+                </div>
+            </div>
+
+            <div class="team-group">
+                <div class="team-label">Pilote DDEC</div>
+                <div class="team-names" onclick="openModal('Mme Bourdin', 'Pilote DDEC - St Nazaire Ouest', 'cbourdin@ec44.fr', '0240611070')">
+                    <div class="person-name">Mme Bourdin</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Saint Nazaire Est -->
+        <div class="antenna-card searchable">
+            <div class="antenna-header">
+                <div class="antenna-title">St Nazaire Est</div>
+                <div class="badge">Simple</div>
+            </div>
+
+            <div class="team-group">
+                <div class="team-label">Référente PAS EMAS</div>
+                <div class="team-names" onclick="openModal('Céline Rouxel', 'Référente PAS EMAS - St Nazaire Est', 'c.rouxel@aja44.fr', '0679190267')">
+                    <div class="person-name">Céline Rouxel</div>
+                </div>
+            </div>
+
+            <div class="team-group">
+                <div class="team-label">Coordonnateurs</div>
+                <div class="team-names" onclick="openModal('Christine Guilbaud', 'Coordonnateur - St Nazaire Est', 'christine.guilbaud1@ac-nantes.fr', '0626831020')">
+                    <div class="person-name">Christine Guilbaud</div>
+                </div>
+                <div class="team-names" onclick="openModal('Sonia Guiet', 'Coordonnateur', 'sguiet.ec44@gmail.com', '0685580774')">
+                    <div class="person-name highlight">Sonia Guiet</div>
+                </div>
+            </div>
+
+            <div class="team-group">
+                <div class="team-label">Éducateurs</div>
+                <div class="team-names" onclick="openModal('Catherine Tonnel', 'Éducateur - St Nazaire Est', 'c.tonnel@aja44.fr', '0616020457')">
+                    <div class="person-name">Catherine Tonnel</div>
+                </div>
+                <div class="team-names" onclick="openModal('Elsa Barraud', 'Éducateur', 'e.barraud@aja44.fr', '0675748601')">
+                    <div class="person-name highlight">Elsa Barraud</div>
+                </div>
+            </div>
+
+            <div class="team-group">
+                <div class="team-label">Ergothérapeute PAS EMAS</div>
+                <div class="team-names" onclick="openModal('Angélique Barreau', 'Ergothérapeute - St Nazaire Est', '', '')">
+                    <div class="person-name">Angélique Barreau</div>
+                </div>
+            </div>
+
+            <div class="team-group">
+                <div class="team-label">IEN de circonscription</div>
+                <div class="team-names" onclick="openModal('M. Piroux', 'IEN de circonscription - St Nazaire Est', '', '0240700422')">
+                    <div class="person-name">M. Piroux</div>
+                </div>
+            </div>
+
+            <div class="team-group">
+                <div class="team-label">Pilote DDEC</div>
+                <div class="team-names" onclick="openModal('M. Berthou', 'Pilote DDEC - St Nazaire Est', 'cberthou@ec44.fr', '0251766020')">
+                    <div class="person-name">M. Berthou</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Saint Brevin les Pins -->
+        <div class="antenna-card searchable">
+            <div class="antenna-header">
+                <div class="antenna-title">St Brevin les Pins</div>
+                <div class="badge">Simple</div>
+            </div>
+
+            <div class="team-group">
+                <div class="team-label">Référente PAS EMAS</div>
+                <div class="team-names" onclick="openModal('Christelle Jeannot', 'Référente PAS EMAS - St Brevin', 'c.jeannot@aja44.fr', '0788661907')">
+                    <div class="person-name">Christelle Jeannot</div>
+                </div>
+            </div>
+
+            <div class="team-group">
+                <div class="team-label">Coordonnateurs</div>
+                <div class="team-names" onclick="openModal('Jean François Thellier', 'Coordonnateur - St Brevin', 'jean-francois.thellier@ac-nantes.fr', '')">
+                    <div class="person-name">Jean François Thellier</div>
+                </div>
+                <div class="team-names" onclick="openModal('Yvan Halgand', 'Coordonnateur - St Brevin', 'yvan.halgand@ac-nantes.fr', '')">
+                    <div class="person-name">Yvan Halgand</div>
+                </div>
+            </div>
+
+            <div class="team-group">
+                <div class="team-label">Éducateurs</div>
+                <div class="team-names" onclick="openModal('Marie Caillaud', 'Éducateur - St Brevin', 'm.caillaud@aja44.fr', '0675748436')">
+                    <div class="person-name">Marie Caillaud</div>
+                </div>
+                <div class="team-names" onclick="openModal('Anaïs Hamon', 'Éducateur - St Brevin', 'a.hamon@aja44.fr', '0616029377')">
+                    <div class="person-name">Anaïs Hamon</div>
+                </div>
+            </div>
+
+            <div class="team-group">
+                <div class="team-label">Ergothérapeute PAS EMAS</div>
+                <div class="team-names" onclick="openModal('Pierre Maciejewski', 'Ergothérapeute - St Brevin', 'maciejewski.pierre@gmail.com', '0658549415')">
+                    <div class="person-name">Pierre Maciejewski</div>
+                </div>
+            </div>
+
+            <div class="team-group">
+                <div class="team-label">IEN de circonscription</div>
+                <div class="team-names" onclick="openModal('M. Reliquet', 'IEN de circonscription - St Brevin', '', '0251102025')">
+                    <div class="person-name">M. Reliquet</div>
+                </div>
+            </div>
+
+            <div class="team-group">
+                <div class="team-label">Pilote DDEC</div>
+                <div class="team-names" onclick="openModal('Mme Prin', 'Pilote DDEC - St Brevin', 'cprin@ec44.fr', '0240272141')">
+                    <div class="person-name">Mme Prin</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Fenêtre Modale (Pop-up de contact) -->
+<div id="contactModal" class="modal-overlay" onclick="closeModalOnOutside(event)">
+    <div class="modal-card">
+        <button class="modal-close" onclick="closeModal()">✕</button>
+        <div id="modalRole" class="modal-role-tag">Poste</div>
+        <div id="modalName" class="modal-name-title">Nom Prénom</div>
+        
+        <!-- Bloc E-mail -->
+        <div class="modal-contact-row" id="emailRow">
+            <div class="modal-contact-label">Adresse e-mail</div>
+            <div class="modal-contact-info">
+                <span id="modalEmailText" class="modal-contact-value">email@domaine.fr</span>
+                <div class="modal-actions">
+                    <button class="btn-action" onclick="copyToClipboard('modalEmailText', this)">Copier</button>
+                    <a id="modalEmailBtn" href="#" class="btn-action primary">✉️️ Écrire</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bloc Téléphone -->
+        <div class="modal-contact-row" id="phoneRow">
+            <div class="modal-contact-label">Téléphone</div>
+            <div class="modal-contact-info">
+                <span id="modalPhoneText" class="modal-contact-value">06 00 00 00 00</span>
+                <div class="modal-actions">
+                    <button class="btn-action" onclick="copyToClipboard('modalPhoneText', this)">Copier</button>
+                    <a id="modalPhoneBtn" href="#" class="btn-action primary">📞 Appeler</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openModal(name, role, email, phone) {
+        document.getElementById('modalName').innerText = name;
+        document.getElementById('modalRole').innerText = role;
+
+        // Gestion de l'email
+        let emailRow = document.getElementById('emailRow');
+        let emailText = document.getElementById('modalEmailText');
+        let emailBtn = document.getElementById('modalEmailBtn');
+        if (email && email.trim() !== "") {
+            emailText.innerText = email;
+            emailBtn.href = "mailto:" + email;
+            emailRow.style.display = "flex";
+        } else {
+            emailRow.style.display = "none";
+        }
+
+        // Gestion du téléphone
+        let phoneRow = document.getElementById('phoneRow');
+        let phoneText = document.getElementById('modalPhoneText');
+        let phoneBtn = document.getElementById('modalPhoneBtn');
+        if (phone && phone.trim() !== "") {
+            phoneText.innerText = phone;
+            phoneBtn.href = "tel:" + phone.replace(/\s+/g, '');
+            phoneRow.style.display = "flex";
+        } else {
+            phoneRow.style.display = "none";
+        }
+
+        document.getElementById('contactModal').classList.add('active');
+    }
+
+    function closeModal() {
+        document.getElementById('contactModal').classList.remove('active');
+    }
+
+    function closeModalOnOutside(event) {
+        if (event.target.id === 'contactModal') {
+            closeModal();
+        }
+    }
+
+    function copyToClipboard(elementId, buttonElement) {
+        let textToCopy = document.getElementById(elementId).innerText;
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            let originalText = buttonElement.innerText;
+            buttonElement.innerText = "Copié !";
+            buttonElement.style.background = "#22c55e";
+            buttonElement.style.color = "white";
+            buttonElement.style.borderColor = "#22c55e";
+            setTimeout(() => {
+                buttonElement.innerText = originalText;
+                buttonElement.style.background = "";
+                buttonElement.style.color = "";
+                buttonElement.style.borderColor = "";
+            }, 1500);
+        });
+    }
+
+    function filterContent() {
+        let input = document.getElementById('searchInput').value.toLowerCase();
+        let cards = document.querySelectorAll('.searchable');
+
+        cards.forEach(card => {
+            let text = card.innerText.toLowerCase();
+            if (text.includes(input)) {
+                card.style.display = "";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
